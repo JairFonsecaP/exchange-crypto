@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <title>Login</title>
+  </head>
+  <body style="background-color: #141414; color: white">
+    <div class="card text-white bg-dark">
+      <div class="card-header">Log in</div>
+      <div class="card-body">
+        <h5 class="card-title">Special title treatment</h5>
+        <div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Username</label>
+            <input
+              type="text"
+              placeholder="Username"
+              class="form-control"
+              id="username"
+              aria-describedby="usernameHelp"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label"
+              >Password</label
+            >
+            <input
+              placeholder="Password"
+              type="password"
+              class="form-control"
+              id="password"
+            />
+          </div>
+          <button class="btn btn-primary" onclick="login()">Submit</button>
+        </div>
+      </div>
+    </div>
+    <script src="/static/js/login.js"></script>
+  </body>
+</html>
