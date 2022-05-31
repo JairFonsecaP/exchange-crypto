@@ -16,7 +16,7 @@ func LoginView(w http.ResponseWriter, r *http.Request) {
 
 func DashboardView() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		renderTemplate(w, "static/html/dashboard.html")
+		renderTemplate(w, "secure/html/dashboard.html")
 	}
 }
 
