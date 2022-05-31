@@ -22,6 +22,7 @@ func GetToken(user *models.User) *JWT {
 
 func sign(user *models.User) string {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"id":   user.Id,
 		"name": user.Name,
 		"exp":  time.Now().Add(60 * time.Minute),
 	})

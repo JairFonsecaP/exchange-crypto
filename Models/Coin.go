@@ -10,6 +10,8 @@ type Coin struct {
 	Price_change_percentage_24h            float64 `json:"price_change_percentage_24h"`
 	Price_change_percentage_7d_in_currency float64 `json:"price_change_percentage_7d_in_currency"`
 	Price_change_percentage_1y_in_currency float64 `json:"price_change_percentage_1y_in_currency"`
+	BuyPrice                               float64 `json:"buyprice,omitempty"`
+	SellPrice                              float64 `json:"sellprice,omitempty"`
 	// Market_cap                       float64 `json:"market_cap"`
 	// Market_cap_rank                  float64 `json:"market_cap_rank"`
 	// Fully_diluted_valuation          float64 `json:"fully_diluted_valuation"`

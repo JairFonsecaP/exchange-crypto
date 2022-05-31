@@ -2,9 +2,9 @@ package controllers
 
 import (
 	models "Coins/Models"
+	"Coins/repositories"
 	"Coins/services"
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -25,15 +25,15 @@ func Login(w http.ResponseWriter, r *http.Request) {
 			log.Fatal(err)
 			return
 		}
-		//poner la logica para traer de db
-		pass := "1234"
-		var user models.User
-		hash := user.EncriptPassword(pass)
-		fmt.Println(hash)
-		user = models.User{Name: "jair", Username: "jair", Password: pass}
-		user.Password = hash
-		if user.Valid(&userInput) {
-			token := services.GetToken(&user)
+
+		userStored, e := repositories.GetUserByUsername(&userInput)
+		if e != nil {
+			http.Error(w, "Username or password invalid", http.StatusUnauthorized)
+			return
+		}
+
+		if userStored.Valid(&userInput) {
+			token := services.GetToken(&userInput)
 			_ = json.NewEncoder(w).Encode(&token)
 		} else {
 			http.Error(w, "Username or password invalid", http.StatusUnauthorized)
