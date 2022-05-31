@@ -35,22 +35,18 @@ func sign(user *models.User) string {
 	return t
 }
 
-func ValidateToken(token string) bool {
-
-	mySigningKey := []byte(singKey) // centralize this secret key
-	t, err := jwt.Parse(token, func(token *jwt.Token) (interface{}, error) {
-		// Don't forget to validate the alg is what you expect:
+func ValidateToken(s string) bool {
+	mySigningKey := []byte(singKey)
+	t, err := jwt.Parse(s, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 		}
-
 		return mySigningKey, nil
 	})
-
 	if err != nil {
 		log.Println(err.Error())
 		return false
 	}
-
 	return t.Valid
+
 }
