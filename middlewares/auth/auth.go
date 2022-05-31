@@ -12,6 +12,5 @@ func ValidateToken(next http.Handler) http.HandlerFunc {
 			next.ServeHTTP(w, r)
 			return
 		}
-		//redirigir a login.html
 	}
 }
