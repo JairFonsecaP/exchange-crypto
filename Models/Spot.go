@@ -5,9 +5,9 @@ type Spot struct {
 	Coins []Coin `json:"coins"`
 }
 
-func newSpot() Spot {
+func createPoket(id int64) Spot {
 	return Spot{
-		Id:    1,
+		Id:    id,
 		Coins: nil,
 	}
 }

@@ -8,17 +8,18 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-func AddUser(u *models.User) {
+func AddUser(u *models.User) error {
 	db, err := getConnection()
 	defer db.Close()
 
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 	err = insertUser(db, u)
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
+	return nil
 }
 
 func GetAllUsers() (users []models.User, err error) {
@@ -27,7 +28,7 @@ func GetAllUsers() (users []models.User, err error) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	res, e := db.Query("SELECT * FROM `Users`;")
+	res, e := db.Query("SELECT * FROM `User`;")
 	if e != nil {
 		return users, err
 	}
@@ -48,7 +49,7 @@ func GetUserByUsername(user *models.User) (u models.User, err error) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	q := "SELECT * FROM `Users` WHERE `Username` = ?;"
+	q := "SELECT * FROM `User` WHERE `Username` = ?;"
 	res, e := db.Query(q, user.Username)
 	if e != nil {
 		return u, e
@@ -63,15 +64,22 @@ func GetUserByUsername(user *models.User) (u models.User, err error) {
 }
 
 func insertUser(db *sql.DB, u *models.User) error {
-	q := "INSERT INTO `Users`(Name,Username,Password,Email) VALUES (?,?,?,?);"
+	q := "INSERT INTO `User`(`Name`,`Username`,`Password`,`Email`) VALUES (?,?,?,?);"
 	insert, err := db.Prepare(q)
 	defer insert.Close()
 
 	if err != nil {
+		log.Fatal(err)
 		return err
 	}
-	_, err = insert.Exec(u.Name, u.Username, u.Password, u.Email)
+	res, err := insert.Exec(u.Name, u.Username, u.Password, u.Email)
 	if err != nil {
+		log.Fatal(err)
+		return err
+	}
+	u.Id, err = res.LastInsertId()
+	if err != nil {
+		log.Fatal(err)
 		return err
 	}
 	return nil

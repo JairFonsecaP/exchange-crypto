@@ -1,8 +1,8 @@
 create database if not exists `Exchange`;
 use Exchange;
 
-drop table if exists `Users`;
-create table if not exists `Users`(
+drop table if exists `User`;
+create table if not exists `User`(
 	`Id` INT  primary key not null auto_increment unique,
 	`Name` varchar(50) not null, 
 	`Username` varchar(16) not null,
@@ -12,20 +12,59 @@ create table if not exists `Users`(
     
 drop table if exists `Spot`;
 create table if not exists `Spot`(
-	`Id` INT primary key not null unique AUTO_INCREMENT unique,
-    `Id_User` int not null,
-    foreign key (`Id_User`)
-		references `Users`(`Id`)
-		ON UPDATE CASCADE ON DELETE RESTRICT
+	`Id` INT primary key not null unique AUTO_INCREMENT unique
 );
 
 drop table if exists `SpotCoin`;
 create table if not exists `SpotCoin`(
 	`Id` INT primary key not null unique AUTO_INCREMENT unique,
-    `Buy_Price` decimal,
+    `Spot_Pocket` int,
+    `Id_Coin` varchar(20) not null,
+    `Buy_Price` decimal not null,
     `Sell_Price` decimal,
-    `Wallet_Spot` INT not null,
-    foreign key (`Wallet_Spot`)
+    `Buy_Date` datetime not null,
+    `Sell_Date` datetime,
+    foreign key (`Spot_Pocket`)
 		references `Spot`(`Id`)
-		ON UPDATE CASCADE ON DELETE RESTRICT
+);
+
+drop table if exists `Earn`;
+create table if not exists `Earn`(
+	`Id` INT primary key not null unique AUTO_INCREMENT unique
+);
+
+drop table if exists `EarnCoins`;
+create table if not exists `EarnCoins`(
+	`Id` INT primary key not null unique AUTO_INCREMENT unique,
+    `Earn_Pocket` int not null,
+    `Id_Coin` varchar(20) not null,
+    `Buy_Price` decimal not null,
+    `Sell_Price` decimal,
+    `Buy_Date` datetime not null,
+    `Sell_Date` datetime,
+    foreign key (`Earn_Pocket`)
+		references `Earn`(`Id`)
+);
+
+drop table if exists `Fiat`;
+create table if not exists `Fiat`(
+	`Id` INT primary key not null unique AUTO_INCREMENT unique,
+    `Total` Decimal not null
+);
+
+drop table if exists `Wallet`;
+create table if not exists `Wallet`(
+	`Id` INT primary key not null unique AUTO_INCREMENT unique,
+    `Spot_Pocket` int not null,
+    `Earn_Pocket` int not null,
+    `Fiat_Pocket` INT not null,
+    `Id_User` int not null,
+    foreign key (`Spot_Pocket`)
+		references `Spot`(`Id`),
+	foreign key (`Earn_Pocket`)
+		references `Earn`(`Id`),
+	foreign key (`Fiat_Pocket`)
+		references `Fiat`(`Id`),
+	foreign key (`Id_User`)
+		references `User`(`Id`)
 )

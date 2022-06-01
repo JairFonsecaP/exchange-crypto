@@ -1,19 +1,22 @@
 package models
 
 type Wallet struct {
-	Id         string `json:"id"`
-	FiatPocket Fiat   `json:"fiatPocket"`
-	SpotPocket Spot   `json:"spotPocket"`
-	EarnPocket Earn   `json:"earnPocket"`
+	Id         int64 `json:"id"`
+	FiatPocket Fiat  `json:"fiatPocket"`
+	SpotPocket Spot  `json:"spotPocket"`
+	EarnPocket Earn  `json:"earnPocket"`
+	Id_User    int64 `json:"idUser"`
 }
 
-func newWallet() Wallet {
-	w := Wallet{
-		Id:         "asdf",
-		FiatPocket: NewFiat(),
-		SpotPocket: newSpot(),
-		EarnPocket: newEarn(),
-	}
+func NewWallet() *Wallet {
+	var spot Spot
+	var earn Earn
+	fiat := NewFiat()
 
-	return w
+	wallet := Wallet{
+		FiatPocket: fiat,
+		SpotPocket: spot,
+		EarnPocket: earn,
+	}
+	return &wallet
 }

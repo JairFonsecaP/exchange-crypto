@@ -12,11 +12,16 @@ const login = async () => {
 
   if (response.ok) {
     const res = await response.json();
-    window.location.pathname = "/dashboard";
     document.cookie = `token=${res.token};expires=${new Date().setTime(
       new Date().getTime() * 24 * 60 * 60 * 1000
     )};SameSite=None;Secure`;
+    window.location.pathname = "/dashboard";
   } else {
-    alert("Bad credentials");
+    document.getElementById(
+      "alert"
+    ).innerHTML = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                    <strong>STOP!</strong> Check your username and/or password.
+                                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                                  </div>`;
   }
 };

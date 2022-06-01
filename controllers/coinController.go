@@ -22,12 +22,14 @@ func ListCoins(w http.ResponseWriter, r *http.Request) {
 
 	err = json.Unmarshal(data, &coins)
 	if err != nil {
-		log.Fatal(err)
+		http.Error(w, "Not found", http.StatusNotFound)
+		return
 	}
 
 	out, err := json.Marshal(coins)
 	if err != nil {
-		log.Fatal(err)
+		http.Error(w, "Not found", http.StatusNotFound)
+		return
 	}
 
 	w.Header().Set("Content-Type", "application/json")

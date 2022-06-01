@@ -6,23 +6,63 @@ import (
 	"Coins/services"
 	"encoding/json"
 	"io/ioutil"
-	"log"
 	"net/http"
 )
+
+func SignUp(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodPost {
+		data, err := ioutil.ReadAll(r.Body)
+
+		if err != nil {
+			http.Error(w, "Error", 501)
+			return
+		}
+		var user models.User
+		err = json.Unmarshal(data, &user)
+		if err != nil {
+			http.Error(w, "User exists please use other username", http.StatusNotAcceptable)
+			return
+		}
+		userTemp, er := repositories.GetUserByUsername(&user)
+		if er != nil || userTemp.Id != 0 {
+			http.Error(w, "User exists please use other username", http.StatusNotAcceptable)
+			return
+		}
+
+		if err != nil {
+			http.Error(w, "Error", 501)
+			return
+		}
+		user.EncriptPassword()
+		err = repositories.AddUser(&user)
+		if err != nil {
+			http.Error(w, "Error", 501)
+			return
+		}
+		err = createWallet(&user)
+		if err != nil {
+			http.Error(w, "Error", 501)
+			return
+		}
+
+	} else {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+	}
+}
 
 func Login(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodPost {
 		data, err := ioutil.ReadAll(r.Body)
 
 		if err != nil {
-			log.Fatal(err)
+			http.Error(w, "Username or password invalid", http.StatusUnauthorized)
 			return
 		}
 		var userInput models.User
 		err = json.Unmarshal(data, &userInput)
 
 		if err != nil {
-			log.Fatal(err)
+			http.Error(w, "Username or password invalid", http.StatusUnauthorized)
 			return
 		}
 

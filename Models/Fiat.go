@@ -5,13 +5,10 @@ const (
 )
 
 type Fiat struct {
-	Id    string  `json:"id"`
+	Id    int64   `json:"id"`
 	Total float64 `json:"total"`
 }
 
 func NewFiat() Fiat {
-	return Fiat{
-		Id:    "asdf", ///get hash
-		Total: AMOUNT_INITIAL,
-	}
+	return Fiat{Id: -1, Total: AMOUNT_INITIAL}
 }

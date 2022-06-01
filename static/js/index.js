@@ -94,4 +94,26 @@ const apiSearch = async (e) => {
   printData(data);
 };
 
+const logout = () => {
+  document.cookie = "token=x;expires=1 Mar 1990 00:00:00 GMT";
+  location.reload();
+};
+
 document.getElementById("search").addEventListener("keyup", apiSearch);
+
+const cookies = document.cookie;
+const cookiesList = cookies.split(";");
+cookiesList.forEach((cookie) => {
+  token = cookie.search("token");
+  if (token > -1) {
+    document.getElementById(
+      "login-button"
+    ).innerHTML = `<button  class="btn btn-outline-success" onclick="logout()"> Logout </button>`;
+    return;
+  } else {
+    document.getElementById(
+      "login-button"
+    ).innerHTML = `<a href="/login" class="btn btn-outline-success"> Login </a>`;
+    return;
+  }
+});

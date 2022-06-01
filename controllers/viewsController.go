@@ -14,6 +14,10 @@ func LoginView(w http.ResponseWriter, r *http.Request) {
 	renderTemplate(w, "static/html/login.html")
 }
 
+func SignUpView(w http.ResponseWriter, r *http.Request) {
+	renderTemplate(w, "static/html/signup.html")
+}
+
 func DashboardView() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		renderTemplate(w, "secure/html/dashboard.html")
