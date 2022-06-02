@@ -6,47 +6,46 @@ import (
 	"log"
 )
 
-func insertSpot(db *sql.DB, w *models.Wallet) error {
-	q := "INSERT INTO `Spot`(id) VALUES(?);"
+func insertEarn(db *sql.DB, w *models.Wallet) error {
+	q := "INSERT INTO `Earn`(id) VALUES(?);"
 	insert, err := db.Prepare(q)
 	defer insert.Close()
 	if err != nil {
+		log.Fatal(err)
 		return err
 	}
-	res, e := insert.Exec(w.SpotPocket.Id)
+	res, e := insert.Exec(w.EarnPocket.Id)
 	if e != nil {
+		log.Fatal(e)
 		return e
 	}
 	i, er := res.LastInsertId()
 	if er != nil {
+		log.Fatal(er)
 		return er
 	}
-	w.SpotPocket.Id = i
+	w.EarnPocket.Id = i
 	return nil
 }
 
-func GetSpotCoinsActive(w *models.Wallet, coins []models.Coin) (err error) {
+func GetEarnCoinsActive(w *models.Wallet, coins []models.Coin) (err error) {
 	db, er := getConnection()
 	defer db.Close()
 	if er != nil {
 		log.Fatal(er)
 		return er
 	}
-	q := "SELECT id_coin, buy_price, buy_date, quantity " +
-		"from spotcoin " +
-		"where spot_pocket = ? and sell_price is null and sell_date is null;"
-	res, e := db.Query(q, w.SpotPocket.Id)
+	q := "SELECT id_coin, buy_price, buy_date " +
+		"from earncoins " +
+		"where earn_pocket = ? and sell_price is null and sell_date is null;"
+	res, e := db.Query(q, w.EarnPocket.Id)
 	if e != nil {
 		return e
 	}
 
-	if err != nil {
-		log.Fatal(err)
-		return err
-	}
 	for res.Next() {
 		var c models.Coin
-		err = res.Scan(&c.Id, &c.BuyPrice, &c.BuyDate, &c.Quantity)
+		err = res.Scan(&c.Id, &c.BuyPrice, &c.BuyDate)
 		if err != nil {
 			log.Fatal(err)
 			return err
@@ -65,8 +64,7 @@ func GetSpotCoinsActive(w *models.Wallet, coins []models.Coin) (err error) {
 			}
 
 		}
-
-		w.SpotPocket.Coins = append(w.SpotPocket.Coins, c)
+		w.EarnPocket.Coins = append(w.EarnPocket.Coins, c)
 	}
 	return nil
 }

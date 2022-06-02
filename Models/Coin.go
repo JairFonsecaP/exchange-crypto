@@ -1,17 +1,22 @@
 package models
 
+import "time"
+
 type Coin struct {
-	Id                                     string  `json:"id"`
-	Name                                   string  `json:"name"`
-	Image                                  string  `json:"image"`
-	Symbol                                 string  `json:"symbol"`
-	Price                                  float64 `json:"current_price"`
-	Price_change_percentage_1h_in_currency float64 `json:"price_change_percentage_1h_in_currency"`
-	Price_change_percentage_24h            float64 `json:"price_change_percentage_24h"`
-	Price_change_percentage_7d_in_currency float64 `json:"price_change_percentage_7d_in_currency"`
-	Price_change_percentage_1y_in_currency float64 `json:"price_change_percentage_1y_in_currency"`
-	BuyPrice                               float64 `json:"buyprice,omitempty"`
-	SellPrice                              float64 `json:"sellprice,omitempty"`
+	Id                                     string    `json:"id"`
+	Name                                   string    `json:"name"`
+	Image                                  string    `json:"image"`
+	Symbol                                 string    `json:"symbol"`
+	Price                                  float64   `json:"current_price"`
+	Price_change_percentage_1h_in_currency float64   `json:"price_change_percentage_1h_in_currency"`
+	Price_change_percentage_24h            float64   `json:"price_change_percentage_24h"`
+	Price_change_percentage_7d_in_currency float64   `json:"price_change_percentage_7d_in_currency"`
+	Price_change_percentage_1y_in_currency float64   `json:"price_change_percentage_1y_in_currency"`
+	BuyPrice                               float64   `json:"buyprice,omitempty"`
+	Quantity                               float64   `json:"quantity,omitempty"`
+	SellPrice                              float64   `json:"sellprice,omitempty"`
+	BuyDate                                time.Time `json:"buy_date,omitempty"`
+	SellDate                               time.Time `json:"sell_date,omitempty"`
 	// Market_cap                       float64 `json:"market_cap"`
 	// Market_cap_rank                  float64 `json:"market_cap_rank"`
 	// Fully_diluted_valuation          float64 `json:"fully_diluted_valuation"`

@@ -20,8 +20,9 @@ create table if not exists `SpotCoin`(
 	`Id` INT primary key not null unique AUTO_INCREMENT unique,
     `Spot_Pocket` int not null,
     `Id_Coin` varchar(20) not null,
-    `Buy_Price` decimal not null,
-    `Sell_Price` decimal,
+    `Quantity` decimal(20,10) not null,
+    `Buy_Price` decimal(10,2) not null,
+    `Sell_Price` decimal(10,2),
     `Buy_Date` datetime not null,
     `Sell_Date` datetime,
     foreign key (`Spot_Pocket`)
@@ -38,8 +39,9 @@ create table if not exists `EarnCoins`(
 	`Id` INT primary key not null unique AUTO_INCREMENT unique,
     `Earn_Pocket` int not null,
     `Id_Coin` varchar(20) not null,
-    `Buy_Price` decimal not null,
-    `Sell_Price` decimal,
+    `Quantity` decimal(20,10) not null,
+    `Buy_Price` decimal(10,2) not null,
+    `Sell_Price` decimal(10,2),
     `Buy_Date` datetime not null,
     `Sell_Date` datetime,
     foreign key (`Earn_Pocket`)

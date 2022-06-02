@@ -74,7 +74,22 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 		if userStored.Valid(&userInput) {
 			token := services.GetToken(&userInput)
-			_ = json.NewEncoder(w).Encode(&token)
+			cookie := &http.Cookie{
+				Name:     "token",
+				Value:    token.Token,
+				Path:     "/",
+				SameSite: http.SameSiteNoneMode,
+				Secure:   true,
+			}
+			http.SetCookie(w, cookie)
+			out, err := json.MarshalIndent(token, "", "    ")
+			if err != nil {
+				http.Error(w, "Something went error", http.StatusNotFound)
+				return
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.Write(out)
 		} else {
 			http.Error(w, "Username or password invalid", http.StatusUnauthorized)
 			return

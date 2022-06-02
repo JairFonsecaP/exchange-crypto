@@ -11,10 +11,6 @@ const login = async () => {
   });
 
   if (response.ok) {
-    const res = await response.json();
-    document.cookie = `token=${res.token};expires=${new Date().setTime(
-      new Date().getTime() * 24 * 60 * 60 * 1000
-    )};SameSite=None;Secure`;
     window.location.pathname = "/dashboard";
   } else {
     document.getElementById(

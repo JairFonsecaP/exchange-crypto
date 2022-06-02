@@ -44,10 +44,11 @@ func GetAllUsers() (users []models.User, err error) {
 }
 
 func GetUserByUsername(user *models.User) (u models.User, err error) {
-	db, err := getConnection()
+	db, er := getConnection()
 	defer db.Close()
-	if err != nil {
-		log.Fatal(err)
+	if er != nil {
+		log.Fatal(er)
+		return u, er
 	}
 	q := "SELECT * FROM `User` WHERE `Username` = ?;"
 	res, e := db.Query(q, user.Username)
