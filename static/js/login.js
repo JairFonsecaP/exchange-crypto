@@ -25,3 +25,21 @@ const login = async () => {
                                                   </div>`;
   }
 };
+
+const validate = (e) => {
+  const button = document.getElementById("button-login");
+  if (
+    document.getElementById("username").value === "" ||
+    document.getElementById("password").value === ""
+  ) {
+    button.classList.add("disabled");
+  } else {
+    button.classList.remove("disabled");
+    if (e.code === "Enter") {
+      login();
+    }
+  }
+};
+
+document.getElementById("username").addEventListener("keyup", validate);
+document.getElementById("password").addEventListener("keyup", validate);

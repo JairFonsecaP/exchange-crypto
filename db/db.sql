@@ -18,7 +18,7 @@ create table if not exists `Spot`(
 drop table if exists `SpotCoin`;
 create table if not exists `SpotCoin`(
 	`Id` INT primary key not null unique AUTO_INCREMENT unique,
-    `Spot_Pocket` int,
+    `Spot_Pocket` int not null,
     `Id_Coin` varchar(20) not null,
     `Buy_Price` decimal not null,
     `Sell_Price` decimal,

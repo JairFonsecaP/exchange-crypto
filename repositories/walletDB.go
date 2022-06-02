@@ -22,6 +22,30 @@ func CreateAWallet(w *models.Wallet) error {
 	return nil
 }
 
+func GetWalletByUserId(u *models.User) (w models.Wallet, err error) {
+	db, err := getConnection()
+	defer db.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+	q := "	select wallet.id, spot.Id , earn.Id, fiat.Id, fiat.Total " +
+		"	from wallet inner join spot on spot.Id = wallet.Spot_Pocket " +
+		"	inner join earn on wallet.Earn_Pocket = earn.Id " +
+		"	inner join fiat on wallet.Fiat_Pocket = fiat.Id " +
+		"	where wallet.Id_User = ?;"
+	res, e := db.Query(q, u.Id)
+	if e != nil {
+		return w, e
+	}
+	for res.Next() {
+		err = res.Scan(&w.Id, &w.SpotPocket.Id, &w.EarnPocket.Id, &w.FiatPocket.Id, &w.FiatPocket.Total)
+		if err != nil {
+			return w, err
+		}
+	}
+	return w, nil
+}
+
 func createWallet(db *sql.DB, w *models.Wallet) error {
 	err := insertSpot(db, w)
 	if err != nil {

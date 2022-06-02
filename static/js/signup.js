@@ -55,7 +55,7 @@ const validation = (data) => {
 const showAlert = (type, message) => {
   document.getElementById(
     "alert"
-  ).innerHTML = `<div class="alert alert-${type} alert-dismissible fade show" role="alert">s
+  ).innerHTML = `<div class="alert alert-${type} alert-dismissible fade show" role="alert">
                             <div>
                             ${message}
                             </div>
