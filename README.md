@@ -11,7 +11,7 @@ Golang installed
 1. Clone the repository:
 
     ```shell
-    $ git clone https://github.com/your-repo
+    $ git clone https://github.com/JairFonsecaP/exchange-crypto
     ```
 
 2. Go to the project directory:
